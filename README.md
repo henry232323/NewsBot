@@ -1,2 +1,3 @@
-# NewsBot
-My new bot made in Elixir
+# ElixirBot
+
+My first project with Elixir, a Discord Bot (based off [Typheus](https://github.com/henry232323/Typheus), my Python bot)
