@@ -99,13 +99,21 @@ defmodule ElixirBot do
     end
 
     def start_usercount(id, guilds) do
-      url = "https://bots.discord.pw/api/bots/#{id}/stats"
+      url1 = "https://discordbots.org/api/bots/#{id}/stats"
       {:ok, payload} = Poison.encode(%{server_count: guilds})
       dbots_headers = %{
         Authorization: Application.get_env(:elixirbot, :dbots_key),
         "Content-Type": "application/json"
       }
-      HTTPoison.post(url, payload, dbots_headers, [ssl: [{:versions, [:'tlsv1.2']}]])
+      HTTPoison.post(url1, payload, dbots_headers, [ssl: [{:versions, [:'tlsv1.2']}]])
+
+      url2 = "https://bots.discord.pw/api/bots/#{id}/stats"
+      dpw_headers = %{
+        Authorization: Application.get_env(:elixirbot, :dpw_key),
+        "Content-Type": "application/json"
+      }
+      HTTPoison.post(url2, payload, dpw_headers, [ssl: [{:versions, [:'tlsv1.2']}]])
+
       :timer.sleep(3600000)
       start_usercount(id, Nostrum.Cache.Guild.GuildServer.all |> Enum.count)
     end
